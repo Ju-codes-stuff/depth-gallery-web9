@@ -1,0 +1,167 @@
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  touch-action: none;
+  z-index: 0;
+}
+.debug-pane {
+  position: fixed;
+  right: 1rem;
+  top: 4rem;
+  z-index: 2000;
+}
+.fps-stats {
+  position: fixed !important;
+  left: max(1.5rem, env(safe-area-inset-left)) !important;
+  top: max(3.5rem, env(safe-area-inset-top)) !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 2000 !important;
+  pointer-events: none;
+}
+@media (max-width: 53em) {
+  .debug-pane {
+    top: auto;
+    right: max(1.2rem, env(safe-area-inset-right));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}
+.velocity-visualizer {
+  position: fixed;
+  left: max(1.52rem, env(safe-area-inset-left));
+  bottom: max(4.75rem, env(safe-area-inset-bottom));
+  z-index: 2000;
+  width: 220px;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(4, 10, 18, 0.8);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-family: var(--ui-font);
+  text-transform: uppercase;
+  letter-spacing: var(--ui-tracking);
+  pointer-events: none;
+}
+.velocity-visualizer__label,
+.velocity-visualizer__value {
+  margin: 0;
+  font-size: 10px;
+}
+.velocity-visualizer__value {
+  margin-top: 0.25rem;
+}
+.velocity-visualizer__track {
+  position: relative;
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.velocity-visualizer__fill {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  background: #7fffd4;
+}
+
+/* ─── Timeline label ───────────────────────────────────────────────────────── */
+/*
+  Alternating alignment is driven by a CSS class toggled per-slide in JS:
+    .timeline-label--left  → anchored to left third
+    .timeline-label--right → anchored to right third
+  Your renderer should add the appropriate modifier based on the slide's
+  position.x sign (negative = left, positive = right).
+*/
+.timeline-label {
+  position: fixed;
+  top: 50%;
+  z-index: 80;
+  pointer-events: none;
+  max-width: 640px;
+  width: calc(100% - 4rem);
+  padding: 0 2rem;
+  transition: opacity 260ms ease;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* LEFT variant — text block sits in the left third, art visible on the right */
+.timeline-label--left,
+.timeline-label:not(.timeline-label--right) {
+  left: 30%;
+  transform: translate(-50%, -50%);
+  text-align: left;
+}
+
+/* RIGHT variant — text block sits in the right third, art visible on the left */
+.timeline-label--right {
+  left: auto;
+  right: 5%;
+  transform: translateY(-50%);
+  text-align: left;
+}
+
+.timeline-label__tag {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
+/* period kept for backwards compat */
+.timeline-label__period {
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 0.25rem;
+  font-family: sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* title = "Month Year" headline — large and bold */
+.timeline-label__title {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 1rem;
+  font-family: sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* body text — ~35% larger than previous values */
+.timeline-label__body {
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.75;
+  opacity: 0.92;
+  font-family: sans-serif;
+  text-transform: none;
+}
+
+@media (max-width: 53em) {
+  /* On small screens both variants collapse to centred bottom layout */
+  .timeline-label,
+  .timeline-label--left,
+  .timeline-label--right {
+    top: auto;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: max(6.25rem, env(safe-area-inset-bottom));
+    text-align: center;
+    padding: 0 max(1rem, env(safe-area-inset-right)) 0 max(1rem, env(safe-area-inset-left));
+  }
+  .timeline-label__title {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+  .timeline-label__body {
+    font-size: clamp(1.1rem, 4.2vw, 1.4rem);
+  }
+}
